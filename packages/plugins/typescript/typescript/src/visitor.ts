@@ -59,7 +59,7 @@ export class TsVisitor<TRawConfig extends TypeScriptPluginConfig = TypeScriptPlu
   FieldDefinition(node: FieldDefinitionNode, key?: number | string, parent?: any): string {
     const typeString = (node.type as any) as string;
     const originalFieldNode = parent[key] as FieldDefinitionNode;
-    const addOptionalSign = !this.config.avoidOptionals && originalFieldNode.type.kind !== Kind.NON_NULL_TYPE;
+    const addOptionalSign = this.config.avoidOptionals? false : true;
     const comment = transformComment((node.description as any) as string, 1);
 
     return comment + indent(`${this.config.immutableTypes ? 'readonly ' : ''}${node.name}${addOptionalSign ? '?' : ''}: ${typeString},`);
